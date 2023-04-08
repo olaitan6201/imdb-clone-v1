@@ -1,5 +1,24 @@
-export default function Home() {
+import DataItem from "@/components/DataItem";
+
+const API_KEY = process.env.API_KEY
+
+export default async function Home({ searchParams }) {
+  const genre = searchParams.genre || "fetchTrending"
+  const res = await fetch(`https://api.themoviedb.org/3/${genre == "fetchTopRated" ? "movie/top_rated" :
+    "trending/all/week"}?api_key=${API_KEY}&language=en-US&page=1`, { next: { revalidate: 30000 } })
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+  const data = await res.json();
+
+  const results = data.results;
+
   return (
-    <h1 className='text-red-400'>Home</h1>
+    <div>
+      {results.map(({ id, original_title }) => (
+        <DataItem id={id} title={original_title} key={id} />
+      ))}
+    </div>
   )
 }
