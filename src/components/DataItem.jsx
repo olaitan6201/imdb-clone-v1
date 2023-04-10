@@ -16,7 +16,8 @@ export default function DataItem({ id, title, path, overview, date, vote_count }
                     blurDataURL="/spinner2.svg"
                     style={{
                         maxWidth: "100%",
-                        height: "auto"
+                        height: "auto",
+                        width: 'auto', 
                     }}
                 />
                 <div className="p-2">
